@@ -3,6 +3,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: process.env.VITE_BASE ?? '/',
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts'],
