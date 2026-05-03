@@ -1,20 +1,47 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  **Project: llo** — a personal life-metrics PWA for daily self-tracking.
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+  **Tech stack**
+  - Svelte 5 (runes), TypeScript, Vite, vite-plugin-pwa
+  - IndexedDB via `idb` for all persistence (no backend, fully client-side)
+  - uPlot for charts
+  - Vitest for tests
+  - Deployed to GitHub Pages via GitHub Actions (base path `/llo/`)
+
+  **Architecture**
+  - `src/lib/metrics/` — metric definitions, types, SLO/budget/correlation math
+  - `src/lib/db/` — IndexedDB schema and access helpers
+  - `src/lib/entry/` — daily entry state machine (card sequence: metrics → energy → journal → commit)
+  - `src/lib/charts/` — uPlot wrappers (line chart, sparkline)
+  - `src/lib/export/` — CSV export
+  - `src/views/` — top-level page views (Dashboard, History, Weekly, Monthly, Quarterly, Trends, CorrelationHeatmap)
+  - `src/components/` — reusable UI components
+
+  **Domain model**
+  - `MetricDefinition` — id, name, group (social | body | mind | life), type (count | hours | scale), SLO config
+  - `DayLog` — date string (YYYY-MM-DD), committed flag, entries (Record<metricId, MetricEntry>), energy (start/end times as numbers), journal text
+  - All data lives in the `daily_logs` IndexedDB store keyed by date string
+  - Metrics are static and defined in `src/lib/metrics/definitions.ts`
+
+  **Current metrics**
+  - Social: People I Made Smile, People I Helped, People I Thanked
+  - Body: Hours of Sleep, Hours of Exercise
+  - Mind: Concepts Learnt, Cognitive Load (scale, inverted)
+  - Life: Family Active Time
+
+  **SLO system**
+  - Rate SLOs: % of days meeting a threshold (sloRate ≠ null) — e.g. sleep ≥7h on 80% of days
+  - Average SLOs: rolling average vs target (sloRate = null) — e.g. avg cognitive load ≤6
+  - Error budget = allowed misses remaining in the rolling window
+  - All SLO math is in `src/lib/slo/index.ts`
+
+  **Conventions**
+  - Dates are always `YYYY-MM-DD` strings
+  - Energy times are stored as fractional hours (e.g. 22.5 = 10:30 PM)
+  - Components use Svelte 5 runes (`$state`, `$derived`, `$effect`) not stores
+  - No external UI library — styles are plain CSS with CSS variables
+  - No router — single-page app with a tab-based shell in `AppShell.svelte`
+  - Tests live alongside source files (`*.test.ts`)
+  - `npm run check` for type-checking, `npm test` for unit tests
