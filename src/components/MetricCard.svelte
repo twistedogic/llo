@@ -15,7 +15,7 @@
     onBack: () => void
   } = $props()
 
-  let value = $state(defaultValue ?? metric.sloTarget)
+  let value = $state(defaultValue ?? 0)
   let isDefault = $state(defaultValue !== null)
 
   const step = metric.type === 'hours' ? 0.5 : metric.type === 'scale' ? 1 : 1
@@ -52,10 +52,8 @@
       <div class="stepper-value">
         <span class="value" class:is-default={isDefault}>{value}</span>
         <span class="unit">{metric.unit}</span>
-        {#if isDefault && defaultValue !== null}
+        {#if isDefault}
           <span class="avg-label">avg</span>
-        {:else if isDefault}
-          <span class="avg-label">target</span>
         {/if}
       </div>
       <button class="stepper-btn" onclick={increment} aria-label="Increase">+</button>

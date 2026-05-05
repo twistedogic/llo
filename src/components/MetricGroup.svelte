@@ -1,16 +1,16 @@
 <script lang="ts">
-  import SloBar from './SloBar.svelte'
+  import DirectionRow from './DirectionRow.svelte'
   import type { MetricDefinition } from '../lib/metrics/types'
-  import type { SloResult } from '../lib/slo/index'
+  import type { DirectionResult } from '../lib/slo/index'
 
   let {
     label,
     metrics,
-    slos,
+    directions,
   }: {
     label: string
     metrics: MetricDefinition[]
-    slos: Record<string, SloResult>
+    directions: Record<string, DirectionResult>
   } = $props()
 </script>
 
@@ -18,9 +18,7 @@
   <h3 class="group-label">{label}</h3>
   <div class="metrics-list">
     {#each metrics as metric}
-      {#if slos[metric.id]}
-        <SloBar {metric} slo={slos[metric.id]} />
-      {/if}
+      <DirectionRow {metric} direction={directions[metric.id] ?? { direction: null, recentAvg: null }} />
     {/each}
   </div>
 </div>

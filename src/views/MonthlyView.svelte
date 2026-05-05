@@ -32,10 +32,6 @@
     })
   }
 
-  function buildGoalSeries(target: number, length: number): number[] {
-    return Array(length).fill(target)
-  }
-
   interface ChartRow {
     metric: typeof METRICS[0]
     values: (number | null)[]
@@ -57,13 +53,11 @@
       if (!el) return
       const xs = monthDates.map((_, idx) => idx)
       const ys = row.values.map(v => v ?? NaN)
-      const goal = buildGoalSeries(row.metric.sloTarget, monthDates.length)
       const data: uPlot.AlignedData = [
         new Float64Array(xs),
         new Float64Array(ys),
-        new Float64Array(goal),
       ]
-      const opts = lineChartConfig(data, ACCENT, row.metric.sloTarget, el.clientWidth || 300, 120)
+      const opts = lineChartConfig(data, ACCENT, null, el.clientWidth || 300, 120)
       charts[i] = new uPlot(opts, data, el)
     })
   })

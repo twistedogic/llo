@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { DayLog } from '../lib/metrics/types'
   import { METRICS } from '../lib/metrics/definitions'
-  import { computeSLO } from '../lib/slo/index'
 
   let {
     logs = [],
@@ -50,10 +49,12 @@
 
   function dayHealth(log: DayLog): 'full' | 'partial' | 'absent' {
     if (!log.committed) return 'absent'
-    const slos = METRICS.map(m => computeSLO(m, [log]))
-    const passing = slos.filter(s => s.passing).length
-    if (passing === METRICS.length) return 'full'
-    if (passing > 0) return 'partial'
+    const logged = METRICS.filter(m => {
+      const e = log.entries[m.id]
+      return e && !e.skipped && e.value !== null
+    }).length
+    if (logged === METRICS.length) return 'full'
+    if (logged > 0) return 'partial'
     return 'partial'
   }
 
@@ -105,8 +106,8 @@
   </div>
 
   <div class="legend">
-    <span class="legend-item"><span class="swatch full"></span>All passing</span>
-    <span class="legend-item"><span class="swatch partial"></span>Mixed</span>
+    <span class="legend-item"><span class="swatch full"></span>All logged</span>
+    <span class="legend-item"><span class="swatch partial"></span>Partial</span>
     <span class="legend-item"><span class="swatch absent"></span>No entry</span>
   </div>
 </div>

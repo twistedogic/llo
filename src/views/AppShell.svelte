@@ -55,7 +55,7 @@
   <div class="view-area">
     {#if activeTab === 'home'}
       {#if !todayCommitted}
-        <EntryFlow {logs} onCommitted={handleCommitted} />
+        <EntryFlow recentLogs={logs} onCommitted={handleCommitted} />
       {:else}
         <Dashboard {logs} />
       {/if}

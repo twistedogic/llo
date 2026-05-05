@@ -11,35 +11,25 @@ The system SHALL show the daily entry flow when today is not committed, and auto
 - **WHEN** user opens the app and today is already committed
 - **THEN** the Monthly Trends view is shown
 
-### Requirement: SLO status bars by group
-The system SHALL display SLO status for all 9 metrics on the Dashboard, grouped into Social, Body, Mind, and Life, each with a progress bar showing compliance percentage and a pass/breach indicator.
+### Requirement: Direction rows by group
+The system SHALL display a direction row per metric on the Dashboard, grouped into Social, Body, Mind, and Life, each row showing the metric name, 14-day rolling average with unit, and a directional arrow.
 
-#### Scenario: Group layout
+#### Scenario: Group layout preserved
 - **WHEN** Dashboard is shown
 - **THEN** metrics are visually grouped under Social, Body, Mind, and Life headings
 
-#### Scenario: SLO passing indicator
-- **WHEN** a metric's SLO compliance meets its target
-- **THEN** the indicator is shown in a passing state (green)
+#### Scenario: Direction arrow shown
+- **WHEN** sufficient data exists (≥ 7 committed entries)
+- **THEN** each metric row shows an arrow: ↑, ↓, or →
 
-#### Scenario: SLO breaching indicator
-- **WHEN** a metric's SLO compliance falls below its target
-- **THEN** the indicator is shown in a warning state (amber or red)
+#### Scenario: No arrow when insufficient data
+- **WHEN** fewer than 7 committed entries exist for a metric
+- **THEN** the direction position shows a dash (—) instead of an arrow
 
-### Requirement: Error budget bars
-The system SHALL display remaining error budget as a progress bar for rate-based SLO metrics (Sleep, Exercise, Family Time) on the Dashboard.
+#### Scenario: Rolling average shown
+- **WHEN** at least one committed entry exists for a metric
+- **THEN** the 14-day rolling average is displayed with the metric's unit
 
-#### Scenario: Budget bar visible
-- **WHEN** Dashboard is shown
-- **THEN** Sleep, Exercise, and Family Time each show a budget bar with remaining days labeled
-
-#### Scenario: Budget depleted
-- **WHEN** remaining budget for a metric reaches 0
-- **THEN** budget bar is fully depleted and metric is marked breaching
-
-### Requirement: No guilt language
-The system SHALL never display streak counters, missed-day counts, or any language that frames absence or SLO breach as personal failure.
-
-#### Scenario: Neutral SLO breach language
-- **WHEN** an SLO is breaching
-- **THEN** the UI shows the compliance percentage and budget remaining without shame-inducing copy
+#### Scenario: No guilt language
+- **WHEN** a metric is trending down
+- **THEN** the UI shows the direction indicator without shame-inducing language or red breach states

@@ -12,15 +12,15 @@ The system SHALL render a weekly view showing sparkline charts for each metric c
 - **THEN** a directional arrow and numeric delta are shown beside each sparkline
 
 ### Requirement: Monthly line chart view
-The system SHALL render a monthly view showing a full line chart per metric with the SLO goal line, absent days as gaps (null values, not zero), and the why sentence beneath the metric name.
+The system SHALL render a monthly view showing a full line chart per metric with absent days as gaps (null values, not zero) and the why sentence beneath the metric name. No goal line is shown.
 
 #### Scenario: Gap for absent days
 - **WHEN** a day in the month has no committed entry
 - **THEN** the line chart shows a gap at that date, not a zero data point
 
-#### Scenario: Goal line visible
+#### Scenario: No goal line
 - **WHEN** monthly chart is rendered
-- **THEN** a dashed horizontal line at the SLO target value is visible
+- **THEN** no horizontal goal line is shown on the chart
 
 #### Scenario: Why sentence displayed
 - **WHEN** monthly chart is rendered for a metric
@@ -42,7 +42,7 @@ The system SHALL render a correlation heatmap showing Pearson correlation coeffi
 
 #### Scenario: Heatmap matrix
 - **WHEN** user views the Correlation tab
-- **THEN** a symmetric matrix of all 9 metrics is shown with shade intensity per cell
+- **THEN** a symmetric matrix of all metrics is shown with shade intensity per cell
 
 #### Scenario: Cell tap shows scatter
 - **WHEN** user taps a correlation cell
