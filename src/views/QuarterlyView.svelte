@@ -3,7 +3,7 @@
   import uPlot from 'uplot'
   import { METRICS } from '../lib/metrics/definitions'
   import { computeSmoothedSeries, computeStdDev } from '../lib/slo/index'
-  import type { DayLog } from '../lib/metrics/types'
+  import { resolveValue, type DayLog } from '../lib/metrics/types'
 
   let { logs = [] }: { logs?: DayLog[] } = $props()
 
@@ -24,8 +24,7 @@
       const log = logs.find(l => l.date === date && l.committed)
       if (!log) return null
       const entry = log.entries[metricId]
-      if (!entry || entry.skipped) return null
-      return entry.value
+      return resolveValue(entry)
     })
   }
 

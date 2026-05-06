@@ -66,12 +66,12 @@ export const METRICS: MetricDefinition[] = [
   },
   {
     id: 'cogload',
-    name: 'Cognitive Load',
+    name: 'Things Deferred',
     group: 'mind',
-    type: 'scale',
-    unit: '1–10',
+    type: 'count',
+    unit: 'items',
     invertDisplay: true,
-    whySentence: 'So that I protect my mental clarity and trust in myself.',
+    whySentence: 'So that I close open loops and keep my mind clear of unfinished business.',
   },
   {
     id: 'family',

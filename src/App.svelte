@@ -1,16 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import AppShell from './views/AppShell.svelte'
-  import { getAllCommittedLogs, isTodayCommitted } from './lib/db/index'
+  import { getAllCommittedLogs } from './lib/db/index'
   import type { DayLog } from './lib/metrics/types'
 
   let logs = $state<DayLog[]>([])
-  let todayCommitted = $state(false)
   let loading = $state(true)
 
   async function refresh() {
     logs = await getAllCommittedLogs()
-    todayCommitted = await isTodayCommitted()
   }
 
   onMount(async () => {
@@ -24,11 +22,7 @@
     <div class="splash-logo">LLO</div>
   </div>
 {:else}
-  <AppShell
-    {logs}
-    {todayCommitted}
-    onCommitted={refresh}
-  />
+  <AppShell {logs} />
 {/if}
 
 <style>

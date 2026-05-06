@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DayLog } from '../lib/metrics/types'
+  import { resolveValue, type DayLog } from '../lib/metrics/types'
   import { METRICS } from '../lib/metrics/definitions'
 
   let {
@@ -49,10 +49,7 @@
 
   function dayHealth(log: DayLog): 'full' | 'partial' | 'absent' {
     if (!log.committed) return 'absent'
-    const logged = METRICS.filter(m => {
-      const e = log.entries[m.id]
-      return e && !e.skipped && e.value !== null
-    }).length
+    const logged = METRICS.filter(m => resolveValue(log.entries[m.id]) > 0).length
     if (logged === METRICS.length) return 'full'
     if (logged > 0) return 'partial'
     return 'partial'

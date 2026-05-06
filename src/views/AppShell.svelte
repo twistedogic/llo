@@ -1,5 +1,5 @@
 <script lang="ts">
-  import EntryFlow from '../components/EntryFlow.svelte'
+  import DailyForm from '../components/DailyForm.svelte'
   import Dashboard from './Dashboard.svelte'
   import TrendsView from './TrendsView.svelte'
   import HistoryView from './HistoryView.svelte'
@@ -8,29 +8,14 @@
 
   let {
     logs = [],
-    todayCommitted = false,
-    onCommitted,
   }: {
     logs?: DayLog[]
-    todayCommitted?: boolean
-    onCommitted?: () => void
   } = $props()
 
   type Tab = 'home' | 'trends' | 'history'
-  let activeTab = $state<Tab>(todayCommitted ? 'trends' : 'home')
+  let activeTab = $state<Tab>('home')
   let showSettings = $state(false)
   let exportMsg = $state<string | null>(null)
-
-  $effect(() => {
-    if (todayCommitted && activeTab === 'home') {
-      activeTab = 'trends'
-    }
-  })
-
-  function handleCommitted() {
-    onCommitted?.()
-    activeTab = 'trends'
-  }
 
   function handleExport() {
     const csv = buildCsv(logs)
@@ -54,11 +39,7 @@
 <div class="app-shell">
   <div class="view-area">
     {#if activeTab === 'home'}
-      {#if !todayCommitted}
-        <EntryFlow recentLogs={logs} onCommitted={handleCommitted} />
-      {:else}
-        <Dashboard {logs} />
-      {/if}
+      <DailyForm />
     {:else if activeTab === 'trends'}
       <TrendsView {logs} />
     {:else}

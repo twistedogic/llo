@@ -76,6 +76,18 @@ export async function isTodayCommitted(): Promise<boolean> {
   return log?.committed === true
 }
 
+export async function autoCommitPreviousDay(): Promise<void> {
+  const db = await openDb()
+  const all = await db.getAll('daily_logs')
+  const today = todayDate()
+  const prev = all
+    .filter(l => l.date < today && !l.committed)
+    .sort((a, b) => b.date.localeCompare(a.date))[0]
+  if (prev) {
+    await commitDay(prev.date, prev)
+  }
+}
+
 export async function getSetting<T>(key: string): Promise<T | undefined> {
   const db = await openDb()
   return (await db.get('app_settings', key)) as T | undefined

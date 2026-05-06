@@ -4,7 +4,7 @@
   import { METRICS } from '../lib/metrics/definitions'
   import { computeRollingAverage } from '../lib/slo/index'
   import { sparklineConfig } from '../lib/charts/sparkline'
-  import type { DayLog } from '../lib/metrics/types'
+  import { resolveValue, type DayLog } from '../lib/metrics/types'
 
   let { logs = [] }: { logs?: DayLog[] } = $props()
 
@@ -32,8 +32,7 @@
       const log = logs.find(l => l.date === date && l.committed)
       if (!log) return null
       const entry = log.entries[metricId]
-      if (!entry || entry.skipped) return null
-      return entry.value
+      return resolveValue(entry)
     })
   }
 

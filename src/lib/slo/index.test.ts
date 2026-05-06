@@ -5,15 +5,15 @@ import {
 } from './index'
 import type { DayLog } from '../metrics/types'
 
-function makeLog(date: string, metricId: string, value: number | null, skipped = false): DayLog {
+function makeLog(date: string, metricId: string, value: number): DayLog {
   return {
     date,
     committed: true,
     committedAt: `${date}T20:00:00Z`,
     entries: {
-      [metricId]: { skipped, value },
+      [metricId]: { value },
     },
-    energy: { skipped: false, start: 7, end: 6 },
+    energy: { start: 7, end: 6 },
     journal: null,
   }
 }

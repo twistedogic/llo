@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
   import { METRICS } from '../lib/metrics/definitions'
   import { computePearsonCorrelation } from '../lib/slo/index'
-  import type { DayLog } from '../lib/metrics/types'
+  import { resolveValue, type DayLog } from '../lib/metrics/types'
 
   let { logs = [] }: { logs?: DayLog[] } = $props()
 
@@ -44,14 +44,7 @@
   function getScatterData(idA: string, idB: string): Array<[number, number]> {
     return logs
       .filter(l => l.committed)
-      .map(l => {
-        const a = l.entries[idA]
-        const b = l.entries[idB]
-        if (!a || a.skipped || a.value === null) return null
-        if (!b || b.skipped || b.value === null) return null
-        return [a.value, b.value] as [number, number]
-      })
-      .filter((v): v is [number, number] => v !== null)
+      .map(l => [resolveValue(l.entries[idA]), resolveValue(l.entries[idB])] as [number, number])
   }
 
   let scatterData = $derived(

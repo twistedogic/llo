@@ -1,4 +1,5 @@
 import type { DayLog } from '../metrics/types'
+import { resolveValue } from '../metrics/types'
 import { METRICS } from '../metrics/definitions'
 
 function escape(val: string | null | undefined): string {
@@ -28,16 +29,13 @@ export function buildCsv(logs: DayLog[]): string {
   const rows = committed.map(log => {
     const metricValues = metricCols.map(id => {
       const entry = log.entries[id]
-      if (!entry || entry.skipped) return ''
-      return entry.value !== null ? String(entry.value) : ''
+      if (!entry) return '0'
+      return String(resolveValue(entry))
     })
 
-    const energyStart = log.energy.skipped ? '' : (log.energy.start !== null ? String(log.energy.start) : '')
-    const energyEnd = log.energy.skipped ? '' : (log.energy.end !== null ? String(log.energy.end) : '')
-    const energyDelta =
-      !log.energy.skipped && log.energy.start !== null && log.energy.end !== null
-        ? String(log.energy.end - log.energy.start)
-        : ''
+    const energyStart = String(log.energy?.start ?? 0)
+    const energyEnd = String(log.energy?.end ?? 0)
+    const energyDelta = String((log.energy?.end ?? 0) - (log.energy?.start ?? 0))
 
     return [
       log.date,

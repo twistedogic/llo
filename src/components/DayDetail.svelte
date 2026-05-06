@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DayLog } from '../lib/metrics/types'
+  import { resolveValue, type DayLog } from '../lib/metrics/types'
   import { METRICS } from '../lib/metrics/definitions'
 
   let {
@@ -18,17 +18,11 @@
 
   function getDisplayValue(metricId: string): string {
     const entry = log.entries[metricId]
-    if (!entry) return '—'
-    if (entry.skipped) return 'skipped'
-    if (entry.value === null) return '—'
-    return String(entry.value)
+    if (!entry) return '0'
+    return String(resolveValue(entry))
   }
 
-  let energyDelta = $derived(
-    log.energy.start !== null && log.energy.end !== null
-      ? log.energy.end - log.energy.start
-      : null
-  )
+  let energyDelta = $derived(log.energy.end - log.energy.start)
 </script>
 
 <div class="day-detail">
@@ -43,30 +37,21 @@
         <span class="metric-name">{metric.name}</span>
         <span
           class="metric-value"
-          class:skipped={log.entries[metric.id]?.skipped}
         >
           {getDisplayValue(metric.id)}
-          {#if !log.entries[metric.id]?.skipped && log.entries[metric.id]?.value !== null}
-            <span class="unit">{metric.unit}</span>
-          {/if}
+          <span class="unit">{metric.unit}</span>
         </span>
       </div>
     {/each}
 
     <div class="metric-row energy-row">
       <span class="metric-name">Energy</span>
-      <span class="metric-value" class:skipped={log.energy.skipped}>
-        {#if log.energy.skipped}
-          skipped
-        {:else if log.energy.start !== null && log.energy.end !== null}
-          {log.energy.start} → {log.energy.end}
-          {#if energyDelta !== null}
-            <span class="delta" class:neg={energyDelta < 0} class:pos={energyDelta > 0}>
-              ({energyDelta > 0 ? '+' : ''}{energyDelta})
-            </span>
-          {/if}
-        {:else}
-          —
+      <span class="metric-value">
+        {log.energy.start} → {log.energy.end}
+        {#if energyDelta !== 0}
+          <span class="delta" class:neg={energyDelta < 0} class:pos={energyDelta > 0}>
+            ({energyDelta > 0 ? '+' : ''}{energyDelta})
+          </span>
         {/if}
       </span>
     </div>
@@ -141,11 +126,6 @@
     display: flex;
     align-items: center;
     gap: var(--space-1);
-  }
-
-  .metric-value.skipped {
-    color: var(--color-skip);
-    font-weight: 400;
   }
 
   .unit {

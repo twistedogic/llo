@@ -24,13 +24,13 @@ The system SHALL ship with 9 pre-configured metrics matching the LLO design, gro
 
 #### Scenario: Mind group metrics
 - **WHEN** the app initialises
-- **THEN** metrics Concepts Learnt and Cognitive Load are present in the Mind group
+- **THEN** metrics Concepts Learnt and Things Deferred are present in the Mind group
 
 #### Scenario: Life group metrics
 - **WHEN** the app initialises
 - **THEN** Family Active Time is present in the Life group
 
-### Requirement: Invert flag for cognitive load
+### Requirement: Invert flag for deferrals
 The system SHALL support an invertDisplay flag that reverses the visual direction indicator for a metric so that lower values appear positive and higher values appear as a warning.
 
 #### Scenario: Inverted direction display

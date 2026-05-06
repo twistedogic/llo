@@ -1,4 +1,5 @@
 import type { DayLog } from '../metrics/types'
+import { resolveValue } from '../metrics/types'
 import { todayDate } from '../db/index'
 
 function dateNDaysAgo(n: number): string {
@@ -15,8 +16,8 @@ function getWindowLogs(logs: DayLog[], windowDays: number): DayLog[] {
 
 function getMetricValue(log: DayLog, metricId: string): number | null {
   const entry = log.entries[metricId]
-  if (!entry || entry.skipped) return null
-  return entry.value
+  if (!entry) return null
+  return resolveValue(entry)
 }
 
 export interface DirectionResult {
@@ -81,10 +82,9 @@ export function computeEnergyRollingAverage(
   n = 30,
 ): number | null {
   const recent = logs
-    .filter(l => l.committed && !l.energy.skipped)
+    .filter(l => l.committed)
     .slice(-n)
-    .map(l => (field === 'start' ? l.energy.start : l.energy.end))
-    .filter((v): v is number => v !== null)
+    .map(l => (field === 'start' ? (l.energy?.start ?? 0) : (l.energy?.end ?? 0)))
 
   if (recent.length === 0) return null
   return recent.reduce((a, b) => a + b, 0) / recent.length

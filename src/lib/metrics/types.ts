@@ -13,14 +13,12 @@ export interface MetricDefinition {
 }
 
 export interface MetricEntry {
-  skipped: boolean
-  value: number | null
+  value: number
 }
 
 export interface EnergyEntry {
-  skipped: boolean
-  start: number | null
-  end: number | null
+  start: number
+  end: number
 }
 
 export interface DayLog {
@@ -30,4 +28,12 @@ export interface DayLog {
   entries: Record<string, MetricEntry>
   energy: EnergyEntry
   journal: string | null
+}
+
+export function resolveValue(entry: unknown): number {
+  if (entry === null || entry === undefined) return 0
+  if (typeof entry === 'number') return entry
+  const e = entry as Record<string, unknown>
+  if (typeof e.value === 'number') return e.value
+  return 0
 }
