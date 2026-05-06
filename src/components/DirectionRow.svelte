@@ -13,7 +13,7 @@
   let arrow = $derived(
     direction.direction === 'up' ? '↑'
     : direction.direction === 'down' ? '↓'
-    : direction.direction === 'flat' ? '→'
+    : direction.direction === 'flat' ? '·'
     : '—'
   )
 
@@ -67,7 +67,7 @@
     text-align: right;
   }
 
-  .arrow.up   { color: var(--color-accent); }
-  .arrow.down { color: var(--color-text-muted); }
+  .arrow.up   { color: var(--color-text); }
+  .arrow.down { color: var(--color-text); }
   .arrow.neutral { color: var(--color-text-muted); }
 </style>

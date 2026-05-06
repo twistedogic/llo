@@ -8,18 +8,18 @@
 
 :root {
   /* Colour palette */
-  --color-bg:          #0f0f1a;
-  --color-surface:     #1a1a2e;
-  --color-surface-alt: #16213e;
-  --color-border:      #2a2a4a;
-  --color-text:        #e8e8f0;
-  --color-text-muted:  #8888aa;
-  --color-accent:      #6c63ff;
-  --color-accent-dim:  #3d3a7a;
-  --color-pass:        #4ade80;
-  --color-warn:        #facc15;
-  --color-breach:      #f87171;
-  --color-skip:        #52525b;
+  --color-bg:          #000000;
+  --color-surface:     #111111;
+  --color-surface-alt: #0d0d0d;
+  --color-border:      #222222;
+  --color-text:        #f0f0f0;
+  --color-text-muted:  #555555;
+  --color-accent:      #ffffff;
+  --color-accent-dim:  #1a1a1a;
+  --color-pass:        #f0f0f0;
+  --color-warn:        #888888;
+  --color-breach:      #444444;
+  --color-skip:        #333333;
 
   /* Typography */
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

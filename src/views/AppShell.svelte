@@ -30,9 +30,9 @@
   }
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
-    { id: 'home', label: 'Home', icon: '○' },
-    { id: 'trends', label: 'Trends', icon: '◈' },
-    { id: 'history', label: 'History', icon: '◫' },
+    { id: 'home', label: 'Home', icon: '🏠' },
+    { id: 'trends', label: 'Trends', icon: '📈' },
+    { id: 'history', label: 'History', icon: '🗓' },
   ]
 </script>
 
@@ -63,7 +63,7 @@
       class:active={showSettings}
       onclick={() => showSettings = !showSettings}
     >
-      <span class="nav-icon">⋯</span>
+      <span class="nav-icon">⚙️</span>
       <span class="nav-label">More</span>
     </button>
   </nav>

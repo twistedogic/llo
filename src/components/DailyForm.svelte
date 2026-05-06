@@ -190,20 +190,17 @@
   .stepper-btn {
     width: 36px;
     height: 36px;
-    border-radius: var(--radius-full);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
     font-size: var(--text-lg);
     color: var(--color-text);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background var(--transition-fast);
     flex-shrink: 0;
+    transition: opacity var(--transition-fast);
   }
 
   .stepper-btn:active {
-    background: var(--color-accent-dim);
+    opacity: 0.5;
   }
 
   .stepper-value {
